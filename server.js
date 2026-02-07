@@ -29,17 +29,20 @@ app.use(cors({
 }));
 
 app.use(express.json());
+// Connect to MongoDB
 
-// Test route
-app.get('/', (req, res) => {
-  console.log('Backend test route accessed');
-  res.json({ 
-    message: 'Backend running 🚀',
-    status: 'active',
-    timestamp: new Date().toISOString()
-  });
-});
-
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    console.log('✅ MongoDB connected successfully');
+  } catch (error) {
+    console.error('❌ MongoDB connection error:', error);
+    // Don't exit process for serverless
+  }
+};
 // Health check route for Vercel
 app.get('/health', (req, res) => {
   res.status(200).json({
@@ -53,13 +56,13 @@ app.get('/health', (req, res) => {
 app.use('/', rideRoutes);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+/*app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ 
     error: 'Something went wrong!',
     message: err.message 
   });
-});
+});*/
 
 // 404 handler
 app.use('*', (req, res) => {
@@ -69,19 +72,8 @@ app.use('*', (req, res) => {
   });
 });
 
-// Connect to MongoDB
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-    });
-    console.log('✅ MongoDB connected successfully');
-  } catch (error) {
-    console.error('❌ MongoDB connection error:', error);
-    // Don't exit process for serverless
-  }
-};
+
+
 
 // Start server only in development
 if (process.env.NODE_ENV !== 'production') {
