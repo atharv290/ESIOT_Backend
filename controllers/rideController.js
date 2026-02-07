@@ -5,13 +5,11 @@ import Ride from '../models/Ride.js';
 export const saveRide = async (req, res) => {
   console.log('Saving ride with body:', req.body);
   try {
-    const { routeData, date } = req.body; // date = "YYYY-MM-DD"
+    const { routeData, rideId } = req.body; // date = "YYYY-MM-DD"
 
-    if (!date || !routeData || !Array.isArray(routeData)) {
+    if (!rideId || !routeData || !Array.isArray(routeData)) {
       return res.status(400).json({ message: 'Date and routeData are required' });
     }
-
-    const rideId = date;
 
     // Ensure each point has timestamp, otherwise assign current time
     const points = routeData.map(point => ({
