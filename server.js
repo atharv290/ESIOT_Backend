@@ -31,14 +31,14 @@ app.use(cors({
 app.use(express.json());
 
 // Test route
-/*app.get('/', (req, res) => {
+app.get('/', (req, res) => {
   console.log('Backend test route accessed');
   res.json({ 
     message: 'Backend running 🚀',
     status: 'active',
     timestamp: new Date().toISOString()
   });
-});*/
+});
 
 // Health check route for Vercel
 app.get('/health', (req, res) => {
