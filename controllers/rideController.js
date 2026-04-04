@@ -11,11 +11,17 @@ export const saveRide = async (req, res) => {
       return res.status(400).json({ message: 'Date and routeData are required' });
     }
 
-    // Ensure each point has timestamp, otherwise assign current time
     const points = routeData.map(point => ({
-      ...point,
-      timestamp: point.timestamp ? new Date(point.timestamp) : new Date(),
-    }));
+  lat: point.lat,
+  lng: point.lng,
+  temperature: point.temperature ?? 0,
+  humidity: point.humidity ?? 0,
+  speed: point.speed ?? 0,
+  rotation: point.rotation ?? 0,
+  flame: point.flame ?? false,
+  flameValue: point.flameValue ?? 0,
+  timestamp: point.timestamp ? new Date(point.timestamp) : new Date(),
+}));
 
     // Check if ride for that date already exists
     let ride = await Ride.findOne({ rideId });

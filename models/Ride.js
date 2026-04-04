@@ -1,10 +1,8 @@
 import mongoose from 'mongoose';
 
 const rideSchema = new mongoose.Schema({
-  // Use date as unique ride ID
-  rideId: { type: String, required: true, unique: true }, // format: YYYY-MM-DD
+  rideId: { type: String, required: true },
 
-  // Each point includes lat, lng, temperature, speed, rotation, timestamp
   routeData: [
     {
       lat: { type: Number, required: true },
