@@ -10,11 +10,14 @@ const rideSchema = new mongoose.Schema({
       lat: { type: Number, required: true },
       lng: { type: Number, required: true },
       temperature: { type: Number, required: true },
+      humidity: { type: Number, required: true },   // ✅ added
       speed: { type: Number, required: true },
       rotation: { type: Number, required: true },
-      timestamp: { type: Date, required: true }, // exact timestamp
-    },
-  ],
+      flame: { type: Boolean, required: true },     // ✅ added
+      flameValue: { type: Number, required: true }, // ✅ added
+      timestamp: { type: Date, required: true }
+    }
+  ]
 });
 
 export default mongoose.model('Ride', rideSchema);
